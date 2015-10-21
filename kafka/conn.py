@@ -209,6 +209,7 @@ class KafkaConnection(local):
 
         try:
             self._sock = socket.create_connection((self.host, self.port), self.timeout)
+            self._sock.setsockopt(socket.SOL_SOCKET, socket.SO_KEEPALIVE, 1)
         except socket.error:
             log.exception('Unable to connect to kafka broker at %s:%d' % (self.host, self.port))
             self._raise_connection_error()
